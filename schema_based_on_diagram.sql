@@ -15,7 +15,7 @@ CREATE TABLE medical_histories (
 
 CREATE TABLE invoices (
   id INT,
-  total_amount DECIMAL(6,2),
+  total_amount DECIMAL(10,2),
   generated_at TIMESTAMP,
   payed_at TIMESTAMP,
   medical_history_id INT REFERENCES medical_histories(id),
@@ -24,9 +24,9 @@ CREATE TABLE invoices (
 
 CREATE TABLE invoices_items (
   id INT,
-  unit_price DECIMAL(6,2),
+  unit_price DECIMAL(10,2),
   quantity INT,
-  total_price DECIMAL,
+  total_price DECIMAL(10,2),
   treatment_id INT REFERENCES treatments(id),
   invoice_id INT REFERENCES invoices(id),
   PRIMARY KEY(id)
@@ -34,8 +34,13 @@ CREATE TABLE invoices_items (
 
 CREATE TABLE treatments (
   id INT,
-  type VARCHAR,
-  name VARCHAR,
+  type VARCHAR(50),
+  name VARCHAR(100),
   PRIMARY KEY(id)
+);
 
+CREATE TABLE medical_histories_join_treatments (
+  medical_histories_id INT REFERENCES medical_histories(id),
+  treatments_id INT REFERENCES treatments(id),
+  PRIMARY KEY(medical_histories_id, treatments_id)
 );
